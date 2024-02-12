@@ -1,5 +1,5 @@
 package com.app.bms.models.enums;
 
 public enum SeatStatus {
-    AVAILABLE, BOOKED;
+    AVAILABLE, BOOKED, RESERVED;
 }
