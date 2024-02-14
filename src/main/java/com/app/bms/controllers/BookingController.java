@@ -1,8 +1,10 @@
 package com.app.bms.controllers;
 
 import com.app.bms.models.dto.request.BookingRequestDTO;
+import com.app.bms.models.dto.response.TicketResponseDTO;
 import com.app.bms.models.entity.Ticket;
 import com.app.bms.services.BookingService;
+import com.app.bms.utils.BookMyShowDTOEntityConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +17,18 @@ public class BookingController {
     private BookingService bookingService;
 
     @PostMapping
-    public ResponseEntity<Ticket> createTicket(@RequestBody BookingRequestDTO bookingRequestDTO) {
-        return new ResponseEntity<>(bookingService.bookTicketForShow(bookingRequestDTO),
+    public ResponseEntity<TicketResponseDTO> createTicket(@RequestBody BookingRequestDTO bookingRequestDTO) {
+        Ticket ticket = bookingService.bookTicketForShow(bookingRequestDTO);
+        TicketResponseDTO ticketResponseDTO = BookMyShowDTOEntityConverter.convertToTicketResponseDTO(ticket);
+        return new ResponseEntity<>(ticketResponseDTO,
                 HttpStatus.CREATED);
     }
 
     @GetMapping("/{ticketId}")
-    public ResponseEntity<Ticket> getBookingDetails(@PathVariable Long ticketId) {
-        return new ResponseEntity<>(bookingService.getBookingDetails(ticketId),
+    public ResponseEntity<TicketResponseDTO> getBookingDetails(@PathVariable Long ticketId) {
+        Ticket ticket = bookingService.getBookingDetails(ticketId);
+        TicketResponseDTO ticketResponseDTO = BookMyShowDTOEntityConverter.convertToTicketResponseDTO(ticket);
+        return new ResponseEntity<>(ticketResponseDTO,
                 HttpStatus.OK);
     }
 }

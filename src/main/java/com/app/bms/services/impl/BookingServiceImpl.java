@@ -11,6 +11,7 @@ import com.app.bms.repositories.TicketRepository;
 import com.app.bms.services.BookingService;
 import com.app.bms.services.PaymentService;
 import com.app.bms.services.UserService;
+import com.app.bms.utils.BookMyShowDTOEntityConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class BookingServiceImpl implements BookingService  {
         // mark those many seats as reserved
         List<ShowSeat> reservedSeats = new ArrayList<>();
         for(int i = 0; i < bookingRequestDTO.getNumOfSeats(); i++) {
-            ShowSeat currentShowSeat = showSeats.remove(0);
+            ShowSeat currentShowSeat = showSeats.get(i);
             currentShowSeat.setSeatStatus(SeatStatus.RESERVED);
             currentShowSeat.setLastUpdatedAt(ZonedDateTime.now());
             reservedSeats.add(currentShowSeat);
